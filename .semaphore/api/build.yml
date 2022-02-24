@@ -1,0 +1,39 @@
+---
+version: "v1.0"
+name: "Api Build"
+agent:
+  machine:
+    type: "e1-standard-2"
+    os_image: "ubuntu2004"
+
+promotions:
+  - name: "Api - Deploy Staging"
+    pipeline_file: "api/deploy-staging.yml"
+    auto_promote:
+      when: "result = 'passed'"
+
+blocks:
+  - name: "Api - Check"
+    task:
+      jobs:
+        - name: "Code Lint"
+          commands:
+            - "true"
+
+        - name: "Test Suite"
+          commands:
+            - "true"
+
+  - name: "Api - Build"
+    task:
+      jobs:
+        - name: "Compile"
+          commands:
+            - "true"
+
+  - name: "Api - Verify"
+    task:
+      jobs:
+        - name: "Smoke test"
+          commands:
+            - "true"

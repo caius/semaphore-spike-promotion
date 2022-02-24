@@ -1,0 +1,31 @@
+---
+version: "v1.0"
+name: "Promotions"
+agent:
+  machine:
+    type: "e1-standard-2"
+    os_image: "ubuntu2004"
+
+# Pushing later changes stops earlier pipelines
+auto_cancel:
+  running:
+    when: "true"
+
+promotions:
+  - name: "Api Build"
+    pipeline_file: "api/build.yml"
+    auto_promote:
+      when: "true" # change_in(api)
+
+  # - name: "Frontend Build"
+  #   pipeline_file: "frontend/build.yml"
+  #   auto_promote:
+  #     when: "true" # change_in(frontend)
+
+blocks:
+  - name: "Welcome"
+    task:
+      jobs:
+        - name: "Welcome"
+          commands:
+            - "echo \"Hello and welcome to the Promotions pipeline. This is a placeholder.\""
